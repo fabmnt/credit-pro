@@ -9,12 +9,12 @@ export async function middleware(request: NextRequest) {
 
 	// Check if the current path is a public route or starts with a public route
 	const isPublicRoute = publicRoutes.some((route) => pathname === route || pathname.startsWith(`${route}/`))
-
 	// If it's not a public route, check for authentication
 	if (!isPublicRoute) {
 		// Get the auth cookie that would be set by better-auth
 		// The cookie name is typically 'session_token' based on the database schema
 		const sessionCookie = getSessionCookie(request)
+
 		// If no auth cookie exists, redirect to login
 		if (!sessionCookie) {
 			const loginUrl = new URL('/login', request.url)
