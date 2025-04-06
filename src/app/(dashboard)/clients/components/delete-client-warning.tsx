@@ -1,6 +1,5 @@
 import {
 	AlertDialog,
-	AlertDialogAction,
 	AlertDialogCancel,
 	AlertDialogContent,
 	AlertDialogDescription,
@@ -8,6 +7,7 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
+import { Button } from '@/components/ui/button'
 import { Loader } from 'lucide-react'
 import Form from 'next/form'
 import { startTransition, useActionState, useEffect } from 'react'
@@ -31,6 +31,7 @@ export function DeleteClientWarning({ client, isOpen, onClose }: DeleteClientWar
 	const handleDelete = () => {
 		startTransition(() => {
 			formAction(client.id)
+			onClose()
 		})
 	}
 
@@ -57,15 +58,15 @@ export function DeleteClientWarning({ client, isOpen, onClose }: DeleteClientWar
 				<AlertDialogFooter>
 					<Form action={() => formAction(client.id)}>
 						<AlertDialogCancel>Cancelar</AlertDialogCancel>
-						<AlertDialogAction
+						<Button
 							onClick={handleDelete}
-							className='bg-red-800 hover:bg-red-800 text-white'
+							className='bg-red-800 ml-2 hover:bg-red-800 text-white'
 							type='submit'
 							disabled={isPending}
 						>
 							{isPending ? 'Eliminando...' : 'Eliminar'}
-							{isPending && <Loader className='w-4 h-4 ml-2 animate-spin' />}
-						</AlertDialogAction>
+							{isPending && <Loader className='w-4 h-4 animate-spin' />}
+						</Button>
 					</Form>
 				</AlertDialogFooter>
 			</AlertDialogContent>
