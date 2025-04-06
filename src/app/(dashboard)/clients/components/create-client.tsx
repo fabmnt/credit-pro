@@ -12,13 +12,15 @@ import {
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Plus } from 'lucide-react'
+import { Textarea } from '@/components/ui/textarea'
+import { Loader, Plus } from 'lucide-react'
+import Form from 'next/form'
 import { useActionState, useEffect } from 'react'
 import { toast } from 'sonner'
 import { createClient } from '../actions'
 
 export function CreateClient() {
-	const [state, formAction] = useActionState(createClient, {
+	const [state, formAction, isPending] = useActionState(createClient, {
 		message: null,
 		error: null,
 		data: null,
@@ -32,32 +34,33 @@ export function CreateClient() {
 		if (state.error) {
 			toast.error(state.error)
 		}
-	}, [state.message, state.error])
+	}, [state])
 
 	return (
 		<Dialog>
 			<DialogTrigger asChild>
 				<Button
-					className='cursor-pointer bg-blue-700 hover:bg-blue-800'
+					className='cursor-pointer bg-blue-800 hover:bg-blue-800'
 					size='lg'
 				>
 					<span>Crear cliente</span>
 					<Plus className='w-4 h-4' />
 				</Button>
 			</DialogTrigger>
-			<DialogContent>
-				<DialogHeader>
+			<DialogContent className='sm:max-w-3xl'>
+				<DialogHeader className='border-b pb-4 mb-4'>
 					<DialogTitle>Crear cliente</DialogTitle>
 					<DialogDescription>Agrega un nuevo cliente a tu lista de clientes</DialogDescription>
 				</DialogHeader>
-				<form action={formAction}>
-					<div className='grid grid-cols-4 gap-4'>
+				<Form action={formAction}>
+					<div className='grid grid-cols-4 gap-6 mb-8'>
 						<div className='space-y-2 col-span-2'>
 							<Label>Nombre</Label>
 							<Input
 								name='name'
 								type='text'
 								placeholder='Nombre del cliente'
+								disabled={isPending}
 							/>
 						</div>
 						<div className='space-y-2 col-span-2'>
@@ -66,6 +69,7 @@ export function CreateClient() {
 								name='dni'
 								type='text'
 								placeholder='Cédula del cliente'
+								disabled={isPending}
 							/>
 						</div>
 						<div className='space-y-2 col-span-2'>
@@ -74,12 +78,16 @@ export function CreateClient() {
 								name='profession'
 								type='text'
 								placeholder='Profesión del cliente'
+								disabled={isPending}
 							/>
 						</div>
 						<div className='space-y-2 col-span-2'>
 							<Label>Ciudad</Label>
-							<Select>
-								<SelectTrigger>
+							<Select
+								name='city'
+								disabled={isPending}
+							>
+								<SelectTrigger className='w-full'>
 									<SelectValue placeholder='Selecciona una ciudad' />
 								</SelectTrigger>
 								<SelectContent>
@@ -104,31 +112,63 @@ export function CreateClient() {
 						<div className='space-y-2 col-span-2'>
 							<Label>Teléfono</Label>
 							<Input
-								name='phone'
+								name='telephone'
 								type='text'
 								placeholder='Teléfono del cliente'
+								disabled={isPending}
 							/>
 						</div>
 						<div className='space-y-2 col-span-2'>
 							<Label>Sexo</Label>
-							<Select>
-								<SelectTrigger>
+							<Select
+								name='sex'
+								disabled={isPending}
+							>
+								<SelectTrigger className='w-full'>
 									<SelectValue placeholder='Selecciona un sexo' />
 								</SelectTrigger>
 								<SelectContent>
-									<SelectItem value='Hombre'>Hombre</SelectItem>
-									<SelectItem value='Mujer'>Mujer</SelectItem>
+									<SelectItem value='male'>Masculino</SelectItem>
+									<SelectItem value='female'>Femenino</SelectItem>
 								</SelectContent>
 							</Select>
 						</div>
+						<div className='space-y-2 col-span-2'>
+							<Label>Nacionalidad</Label>
+							<Input
+								name='nationality'
+								type='text'
+								placeholder='Nacionalidad del cliente'
+								disabled={isPending}
+							/>
+						</div>
+						<div className='space-y-2 col-span-2'>
+							<Label>Email (opcional)</Label>
+							<Input
+								name='email'
+								type='email'
+								placeholder='Email del cliente'
+								disabled={isPending}
+							/>
+						</div>
+						<div className='col-span-4 space-y-2'>
+							<Label>Dirección</Label>
+							<Textarea
+								name='address'
+								placeholder='Dirección del cliente'
+								disabled={isPending}
+							/>
+						</div>
 					</div>
 					<Button
-						className='w-full'
+						className='w-full bg-blue-800 hover:bg-blue-800 cursor-pointer'
 						type='submit'
+						disabled={isPending}
 					>
-						Crear cliente
+						{isPending ? 'Creando cliente...' : 'Crear cliente'}
+						{isPending && <Loader className='h-4 w-4 ml-2 animate-spin' />}
 					</Button>
-				</form>
+				</Form>
 			</DialogContent>
 		</Dialog>
 	)

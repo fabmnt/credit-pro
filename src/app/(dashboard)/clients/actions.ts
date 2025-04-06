@@ -46,7 +46,7 @@ export async function createClient(prevState: unknown, formData: FormData): Prom
 	if (!validatedData.success) {
 		return {
 			message: null,
-			error: validatedData.error.message,
+			error: validatedData.error.errors.map((error) => error.message).join('. '),
 			data: null,
 		}
 	}

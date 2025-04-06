@@ -10,7 +10,7 @@ export const clientSchema = z.object({
 	telephone: z.string().min(1, { message: 'El teléfono es requerido' }),
 	sex: z.string().min(1, { message: 'El sexo es requerido' }),
 	nationality: z.string().min(1, { message: 'La nacionalidad es requerida' }),
-	email: z.string().email({ message: 'Formato de email inválido' }).nullable(),
+	email: z.union([z.string().email({ message: 'Formato de email inválido' }), z.string().length(0), z.null()]),
 	createdAt: z.date(),
 	updatedAt: z.date(),
 })
