@@ -2,9 +2,10 @@
 
 import { db } from '@/db'
 import { client } from '@/db/schema'
+import type { StandardResponse } from '@/types/response'
 import { eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
-import { type CreateClient, type UpdateClient, createClientSchema, updateClientSchema } from './schema'
+import { type Client, type UpdateClient, createClientSchema, updateClientSchema } from './schema'
 
 export async function updateClient(id: string, data: UpdateClient) {
 	// Validate the data
@@ -37,10 +38,18 @@ export async function updateClient(id: string, data: UpdateClient) {
 	}
 }
 
-export async function createClient(data: CreateClient) {
+export async function createClient(prevState: unknown, formData: FormData): Promise<StandardResponse<Client>> {
 	// Validate the data
-	const validatedData = createClientSchema.parse(data)
+	const rawData = Object.fromEntries(formData.entries())
+	const validatedData = createClientSchema.safeParse(rawData)
 
+	if (!validatedData.success) {
+		return {
+			message: null,
+			error: validatedData.error.message,
+			data: null,
+		}
+	}
 	// Add timestamps
 	const now = new Date()
 
@@ -49,20 +58,24 @@ export async function createClient(data: CreateClient) {
 		const [newClient] = await db
 			.insert(client)
 			.values({
-				...validatedData,
+				...validatedData.data,
 				createdAt: now,
 				updatedAt: now,
 			})
 			.returning()
 
 		// Revalidate clients path to update the UI
-		revalidatePath('/clients')
+		if (!newClient) {
+			return { message: 'Error al crear el cliente', data: null, error: 'Error al crear el cliente' }
+		}
 
-		return { success: true, data: newClient }
+		revalidatePath('/clients')
+		return { message: 'Cliente creado correctamente', data: newClient, error: null }
 	} catch (error) {
 		return {
-			success: false,
 			error: error instanceof Error ? error.message : 'Failed to create client',
+			message: null,
+			data: null,
 		}
 	}
 }

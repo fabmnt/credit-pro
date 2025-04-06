@@ -4,6 +4,7 @@ import { auth } from '@/lib/auth'
 import type { StandardResponse } from '@/types/response'
 import type { User } from 'better-auth'
 import { APIError } from 'better-auth/api'
+import { redirect } from 'next/navigation'
 
 export async function login(prevState: unknown, formData: FormData): Promise<StandardResponse<User>> {
 	const credentialsRaw = Object.fromEntries(formData.entries())
@@ -14,21 +15,21 @@ export async function login(prevState: unknown, formData: FormData): Promise<Sta
 	}
 
 	try {
-		const { user } = await auth.api.signInEmail({
+		await auth.api.signInEmail({
 			body: {
 				email: credentials.email,
 				password: credentials.password,
 			},
 		})
-
-		return { message: 'Login successful', error: null, data: user }
 	} catch (error) {
+		console.error(error)
 		if (error instanceof APIError) {
 			return { message: null, error: error.message, data: null }
 		}
 
 		return { message: null, error: 'Something went wrong', data: null }
 	}
+	redirect('/')
 }
 
 export async function register(prevState: unknown, formData: FormData): Promise<StandardResponse<User>> {
@@ -40,15 +41,13 @@ export async function register(prevState: unknown, formData: FormData): Promise<
 	}
 
 	try {
-		const { user } = await auth.api.signUpEmail({
+		await auth.api.signUpEmail({
 			body: {
 				name: credentials.name,
 				email: credentials.email,
 				password: credentials.password,
 			},
 		})
-
-		return { message: 'Register successful', error: null, data: user }
 	} catch (error) {
 		if (error instanceof APIError) {
 			return { message: null, error: error.message, data: null }
@@ -56,4 +55,6 @@ export async function register(prevState: unknown, formData: FormData): Promise<
 
 		return { message: null, error: 'Something went wrong', data: null }
 	}
+
+	redirect('/')
 }

@@ -1,7 +1,7 @@
 import { ClientsTable } from '@/app/(dashboard)/clients/components/clients-table'
 import { getClients } from '@/app/(dashboard)/clients/services/get-clients'
 import { Card, CardContent } from '@/components/ui/card'
-
+import { CreateClient } from './components/create-client'
 export default async function ClientsPage() {
 	const clients = await getClients()
 
@@ -11,6 +11,9 @@ export default async function ClientsPage() {
 				<div>
 					<h1 className='text-2xl font-semibold'>Clientes</h1>
 					<p className='text-sm text-muted-foreground'>Gestiona los clientes de tu empresa</p>
+				</div>
+				<div>
+					<CreateClient />
 				</div>
 			</header>
 			<Card className='rounded-sm'>

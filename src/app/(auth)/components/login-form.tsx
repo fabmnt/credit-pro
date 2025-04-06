@@ -62,7 +62,7 @@ export function LoginForm() {
 						¿No tienes una cuenta?{' '}
 						<Link
 							href='/register'
-							className='font-bold underline'
+							className='font-semibold underline'
 						>
 							Regístrate
 						</Link>
