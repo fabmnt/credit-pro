@@ -5,18 +5,15 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { formatDate } from '@/lib/utils'
 import { Trash2 } from 'lucide-react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { toast } from 'sonner'
-import { deleteClient } from '../actions'
 import type { Client } from '../schema'
+import { DeleteClientWarning } from './delete-client-warning'
 
 interface ClientsTableProps {
 	clients: Client[]
 }
 
 export function ClientsTable({ clients }: ClientsTableProps) {
-	const router = useRouter()
 	const [clientToDelete, setClientToDelete] = useState<Client | null>(null)
 
 	const handleDeleteClick = (client: Client) => {
@@ -25,32 +22,6 @@ export function ClientsTable({ clients }: ClientsTableProps) {
 
 	const handleDeleteCancel = () => {
 		setClientToDelete(null)
-	}
-
-	const handleDeleteConfirm = async () => {
-		if (!clientToDelete) return
-
-		try {
-			const result = await deleteClient(clientToDelete.id)
-
-			if (result.success) {
-				toast.success('Cliente eliminado', {
-					description: 'El cliente ha sido eliminado exitosamente',
-				})
-
-				// Refresh the page data
-				router.refresh()
-			} else {
-				toast.error('Error', {
-					description: result.error || 'No se pudo eliminar el cliente',
-				})
-			}
-		} catch (error) {
-			console.error('Error deleting client:', error)
-			toast.error('Error', {
-				description: 'Ocurrió un error al eliminar el cliente',
-			})
-		}
 	}
 
 	return (
@@ -112,6 +83,13 @@ export function ClientsTable({ clients }: ClientsTableProps) {
 					)}
 				</TableBody>
 			</Table>
+			{clientToDelete && (
+				<DeleteClientWarning
+					client={clientToDelete}
+					isOpen={!!clientToDelete}
+					onClose={handleDeleteCancel}
+				/>
+			)}
 		</div>
 	)
 }

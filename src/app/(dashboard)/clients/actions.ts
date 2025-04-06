@@ -80,18 +80,19 @@ export async function createClient(prevState: unknown, formData: FormData): Prom
 	}
 }
 
-export async function deleteClient(id: string) {
+export async function deleteClient(prevState: unknown, id: string): Promise<StandardResponse<void>> {
 	try {
 		await db.delete(client).where(eq(client.id, id))
 
 		// Revalidate clients path to update the UI
 		revalidatePath('/clients')
 
-		return { success: true }
+		return { data: null, message: 'Cliente eliminado correctamente', error: null }
 	} catch (error) {
 		return {
-			success: false,
+			data: null,
 			error: error instanceof Error ? error.message : 'Failed to delete client',
+			message: null,
 		}
 	}
 }
