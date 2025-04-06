@@ -97,7 +97,7 @@ export function AppSidebar() {
 					<Button
 						variant='outline'
 						disabled={isPending}
-						className='cursor-pointer flex items-center justify-start gap-2 w-full'
+						className='cursor-pointer flex items-center gap-2 w-full'
 						onClick={() => signOut()}
 					>
 						<LogOut className='h-4 w-4' />

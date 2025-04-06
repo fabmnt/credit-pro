@@ -4,6 +4,7 @@ import { register } from '@/app/(auth)/actions'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Loader } from 'lucide-react'
 import Form from 'next/form'
 import { useRouter } from 'next/navigation'
 import { useActionState, useEffect } from 'react'
@@ -40,6 +41,7 @@ export function RegisterForm() {
 						name='name'
 						required
 						id='register-name'
+						disabled={isPending}
 					/>
 				</div>
 				<div className='space-y-2'>
@@ -50,6 +52,7 @@ export function RegisterForm() {
 						name='email'
 						required
 						id='register-email'
+						disabled={isPending}
 					/>
 				</div>
 				<div className='space-y-2'>
@@ -60,6 +63,7 @@ export function RegisterForm() {
 						name='password'
 						required
 						id='register-password'
+						disabled={isPending}
 					/>
 				</div>
 				<div className='space-y-2'>
@@ -70,6 +74,7 @@ export function RegisterForm() {
 						name='confirmPassword'
 						required
 						id='register-confirm-password'
+						disabled={isPending}
 					/>
 				</div>
 			</div>
@@ -79,6 +84,7 @@ export function RegisterForm() {
 				disabled={isPending}
 			>
 				{isPending ? 'Registrando...' : 'Registrar'}
+				{isPending && <Loader className='h-4 w-4 animate-spin' />}
 			</Button>
 		</Form>
 	)
