@@ -1,10 +1,9 @@
 'use server'
+import { loginSchema, registerSchema } from '@/app/(auth)/schema'
 import { auth } from '@/lib/auth'
 import type { StandardResponse } from '@/types/response'
 import type { User } from 'better-auth'
 import { APIError } from 'better-auth/api'
-import { loginSchema } from './login/schema'
-import { registerSchema } from './register/schema'
 
 export async function login(prevState: unknown, formData: FormData): Promise<StandardResponse<User>> {
 	const credentialsRaw = Object.fromEntries(formData.entries())

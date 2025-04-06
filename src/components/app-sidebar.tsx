@@ -1,9 +1,10 @@
 'use client'
 
-import { CreditCard, Home, PieChart, Users } from 'lucide-react'
+import { CreditCard, Home, Loader, LogOut, PieChart, Users } from 'lucide-react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
+import { Button } from '@/components/ui/button'
 import {
 	Sidebar,
 	SidebarContent,
@@ -14,9 +15,22 @@ import {
 	SidebarMenuItem,
 	SidebarRail,
 } from '@/components/ui/sidebar'
-
+import { authClient } from '@/lib/auth-client'
+import { useMutation } from '@tanstack/react-query'
 export function AppSidebar() {
 	const pathname = usePathname()
+	const router = useRouter()
+	const { mutateAsync: signOut, isPending } = useMutation({
+		mutationFn: async () => {
+			await authClient.signOut({
+				fetchOptions: {
+					onSuccess: () => {
+						router.push('/login')
+					},
+				},
+			})
+		},
+	})
 
 	const navItems = [
 		{
@@ -79,7 +93,17 @@ export function AppSidebar() {
 				</SidebarMenu>
 			</SidebarContent>
 			<SidebarFooter>
-				<div className='p-4 flex items-center justify-between'>
+				<div className='flex flex-col gap-4 py-4'>
+					<Button
+						variant='outline'
+						disabled={isPending}
+						className='cursor-pointer flex items-center justify-start gap-2 w-full'
+						onClick={() => signOut()}
+					>
+						<LogOut className='h-4 w-4' />
+						{isPending ? <span>Cerrando sesión...</span> : <span>Cerrar sesión</span>}
+						{isPending && <Loader className='h-4 w-4 animate-spin' />}
+					</Button>
 					<p className='text-xs text-muted-foreground'>© 2025 CreditPro</p>
 				</div>
 			</SidebarFooter>

@@ -1,14 +1,15 @@
 'use client'
 
+import { login } from '@/app/(auth)/actions'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Loader } from 'lucide-react'
 import Form from 'next/form'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useActionState, useEffect } from 'react'
 import { toast } from 'sonner'
-import { login } from '../../actions'
 export function LoginForm() {
 	const [state, formAction, isPending] = useActionState(login, {
 		error: null,
@@ -42,6 +43,7 @@ export function LoginForm() {
 						type='email'
 						placeholder='Email'
 						name='email'
+						disabled={isPending}
 					/>
 				</div>
 				<div className='space-y-2'>
@@ -52,6 +54,7 @@ export function LoginForm() {
 						type='password'
 						placeholder='Password'
 						name='password'
+						disabled={isPending}
 					/>
 				</div>
 				<div>
@@ -72,6 +75,7 @@ export function LoginForm() {
 				disabled={isPending}
 			>
 				{isPending ? 'Iniciando sesión...' : 'Iniciar sesión'}
+				{isPending && <Loader className='h-4 w-4 animate-spin' />}
 			</Button>
 		</Form>
 	)

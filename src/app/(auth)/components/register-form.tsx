@@ -1,5 +1,6 @@
 'use client'
 
+import { register } from '@/app/(auth)/actions'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -7,7 +8,6 @@ import Form from 'next/form'
 import { useRouter } from 'next/navigation'
 import { useActionState, useEffect } from 'react'
 import { toast } from 'sonner'
-import { register } from '../../actions'
 export function RegisterForm() {
 	const [state, formAction, isPending] = useActionState(register, {
 		error: null,
