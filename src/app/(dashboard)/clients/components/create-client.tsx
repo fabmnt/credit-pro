@@ -15,7 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea'
 import { Loader, Plus } from 'lucide-react'
 import Form from 'next/form'
-import { useActionState, useEffect } from 'react'
+import { useActionState, useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { createClient } from '../actions'
 
@@ -26,9 +26,12 @@ export function CreateClient() {
 		data: null,
 	})
 
+	const [isOpen, setIsOpen] = useState(false)
+
 	useEffect(() => {
 		if (state.message) {
 			toast.success(state.message)
+			setIsOpen(false)
 		}
 
 		if (state.error) {
@@ -37,7 +40,10 @@ export function CreateClient() {
 	}, [state])
 
 	return (
-		<Dialog>
+		<Dialog
+			open={isOpen}
+			onOpenChange={setIsOpen}
+		>
 			<DialogTrigger asChild>
 				<Button
 					className='cursor-pointer bg-blue-800 hover:bg-blue-800'
@@ -166,7 +172,7 @@ export function CreateClient() {
 						disabled={isPending}
 					>
 						{isPending ? 'Creando cliente...' : 'Crear cliente'}
-						{isPending && <Loader className='h-4 w-4 ml-2 animate-spin' />}
+						{isPending && <Loader className='h-4 w-4 animate-spin' />}
 					</Button>
 				</Form>
 			</DialogContent>
