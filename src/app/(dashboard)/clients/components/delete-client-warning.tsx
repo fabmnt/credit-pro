@@ -31,19 +31,19 @@ export function DeleteClientWarning({ client, isOpen, onClose }: DeleteClientWar
 	const handleDelete = () => {
 		startTransition(() => {
 			formAction(client.id)
-			onClose()
 		})
 	}
 
 	useEffect(() => {
 		if (state.message) {
 			toast.success(state.message)
+			onClose()
 		}
 
 		if (state.error) {
 			toast.error(state.error)
 		}
-	}, [state])
+	}, [state, onClose])
 
 	return (
 		<AlertDialog

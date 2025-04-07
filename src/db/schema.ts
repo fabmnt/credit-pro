@@ -61,6 +61,7 @@ export const client = pgTable('client', {
 	sex: text('sex').notNull(),
 	nationality: text('nationality').notNull(),
 	email: text('email'),
+	company: text('company'),
 	createdAt: timestamp('created_at').notNull().defaultNow(),
 	updatedAt: timestamp('updated_at').notNull().defaultNow(),
 })

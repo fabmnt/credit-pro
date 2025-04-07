@@ -69,7 +69,7 @@ export function CreateClient() {
 								disabled={isPending}
 							/>
 						</div>
-						<div className='space-y-2 col-span-2'>
+						<div className='space-y-2'>
 							<Label>Cédula</Label>
 							<Input
 								name='dni'
@@ -77,6 +77,21 @@ export function CreateClient() {
 								placeholder='Cédula del cliente'
 								disabled={isPending}
 							/>
+						</div>
+						<div className='space-y-2'>
+							<Label>Sexo</Label>
+							<Select
+								name='sex'
+								disabled={isPending}
+							>
+								<SelectTrigger className='w-full'>
+									<SelectValue placeholder='Selecciona un sexo' />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value='male'>Masculino</SelectItem>
+									<SelectItem value='female'>Femenino</SelectItem>
+								</SelectContent>
+							</Select>
 						</div>
 						<div className='space-y-2 col-span-2'>
 							<Label>Profesión</Label>
@@ -87,7 +102,7 @@ export function CreateClient() {
 								disabled={isPending}
 							/>
 						</div>
-						<div className='space-y-2 col-span-2'>
+						<div className='space-y-2'>
 							<Label>Ciudad</Label>
 							<Select
 								name='city'
@@ -115,7 +130,7 @@ export function CreateClient() {
 								</SelectContent>
 							</Select>
 						</div>
-						<div className='space-y-2 col-span-2'>
+						<div className='space-y-2'>
 							<Label>Teléfono</Label>
 							<Input
 								name='telephone'
@@ -123,21 +138,6 @@ export function CreateClient() {
 								placeholder='Teléfono del cliente'
 								disabled={isPending}
 							/>
-						</div>
-						<div className='space-y-2 col-span-2'>
-							<Label>Sexo</Label>
-							<Select
-								name='sex'
-								disabled={isPending}
-							>
-								<SelectTrigger className='w-full'>
-									<SelectValue placeholder='Selecciona un sexo' />
-								</SelectTrigger>
-								<SelectContent>
-									<SelectItem value='male'>Masculino</SelectItem>
-									<SelectItem value='female'>Femenino</SelectItem>
-								</SelectContent>
-							</Select>
 						</div>
 						<div className='space-y-2 col-span-2'>
 							<Label>Nacionalidad</Label>
@@ -148,12 +148,21 @@ export function CreateClient() {
 								disabled={isPending}
 							/>
 						</div>
-						<div className='space-y-2 col-span-2'>
+						<div className='space-y-2'>
 							<Label>Email (opcional)</Label>
 							<Input
 								name='email'
 								type='email'
 								placeholder='Email del cliente'
+								disabled={isPending}
+							/>
+						</div>
+						<div className='space-y-2'>
+							<Label>Empresa (opcional)</Label>
+							<Input
+								name='company'
+								type='text'
+								placeholder='Empresa del cliente'
 								disabled={isPending}
 							/>
 						</div>

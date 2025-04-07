@@ -11,6 +11,7 @@ export const clientSchema = z.object({
 	sex: z.string().min(1, { message: 'El sexo es requerido' }),
 	nationality: z.string().min(1, { message: 'La nacionalidad es requerida' }),
 	email: z.union([z.string().email({ message: 'Formato de email inválido' }), z.string().length(0), z.null()]),
+	company: z.string().optional(),
 	createdAt: z.date(),
 	updatedAt: z.date(),
 })
