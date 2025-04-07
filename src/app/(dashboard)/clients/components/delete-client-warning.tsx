@@ -9,8 +9,7 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import { Loader } from 'lucide-react'
-import Form from 'next/form'
-import { startTransition, useActionState, useEffect } from 'react'
+import { useTransition } from 'react'
 import { toast } from 'sonner'
 import { deleteClient } from '../actions'
 import type { Client } from '../schema'
@@ -19,31 +18,26 @@ interface DeleteClientWarningProps {
 	client: Client
 	isOpen: boolean
 	onClose: () => void
+	onDelete: () => void
 }
 
-export function DeleteClientWarning({ client, isOpen, onClose }: DeleteClientWarningProps) {
-	const [state, formAction, isPending] = useActionState(deleteClient, {
-		data: null,
-		message: null,
-		error: null,
-	})
+export function DeleteClientWarning({ client, isOpen, onClose, onDelete }: DeleteClientWarningProps) {
+	const [isPending, startTransition] = useTransition()
 
 	const handleDelete = () => {
-		startTransition(() => {
-			formAction(client.id)
+		startTransition(async () => {
+			try {
+				const { error } = await deleteClient(client.id)
+				if (error) {
+					throw new Error(error)
+				}
+				toast.success('Cliente eliminado correctamente')
+				onDelete()
+			} catch (error) {
+				toast.error('Error al eliminar el cliente')
+			}
 		})
 	}
-
-	useEffect(() => {
-		if (state.message) {
-			toast.success(state.message)
-			onClose()
-		}
-
-		if (state.error) {
-			toast.error(state.error)
-		}
-	}, [state, onClose])
 
 	return (
 		<AlertDialog
@@ -56,18 +50,16 @@ export function DeleteClientWarning({ client, isOpen, onClose }: DeleteClientWar
 					<AlertDialogDescription>Esta acción no se puede deshacer.</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter>
-					<Form action={() => formAction(client.id)}>
-						<AlertDialogCancel>Cancelar</AlertDialogCancel>
-						<Button
-							onClick={handleDelete}
-							className='bg-red-800 ml-2 hover:bg-red-800 text-white'
-							type='submit'
-							disabled={isPending}
-						>
-							{isPending ? 'Eliminando...' : 'Eliminar'}
-							{isPending && <Loader className='w-4 h-4 animate-spin' />}
-						</Button>
-					</Form>
+					<AlertDialogCancel>Cancelar</AlertDialogCancel>
+					<Button
+						onClick={handleDelete}
+						className='bg-red-800 ml-2 hover:bg-red-800 text-white'
+						type='submit'
+						disabled={isPending}
+					>
+						{isPending ? 'Eliminando...' : 'Eliminar'}
+						{isPending && <Loader className='w-4 h-4 animate-spin' />}
+					</Button>
 				</AlertDialogFooter>
 			</AlertDialogContent>
 		</AlertDialog>

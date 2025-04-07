@@ -1,9 +1,11 @@
+import { UpdateClient } from '@/app/(dashboard)/clients/components/update-client'
 import { getClient } from '@/app/(dashboard)/clients/services/get-clients'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { formatDate } from '@/lib/utils'
 import { ArrowLeft, Briefcase, Building2, Calendar, Flag, Mail, MapPin, Phone, User } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { DeleteClient } from '../components/delete-client'
 
 export default async function ClientDetailsPage({ params }: { params: Promise<{ id: string }> }) {
 	const id = (await params).id
@@ -27,6 +29,10 @@ export default async function ClientDetailsPage({ params }: { params: Promise<{ 
 						<h1 className='text-2xl font-semibold'>{client.name}</h1>
 						<p className='text-sm text-muted-foreground'>Detalles del cliente</p>
 					</div>
+				</div>
+				<div className='flex items-center gap-x-2'>
+					<UpdateClient client={client} />
+					<DeleteClient client={client} />
 				</div>
 			</header>
 

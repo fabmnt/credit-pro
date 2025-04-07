@@ -5,11 +5,19 @@ import { client } from '@/db/schema'
 import type { StandardResponse } from '@/types/response'
 import { eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
-import { type Client, type UpdateClient, createClientSchema, updateClientSchema } from './schema'
+import { type Client, createClientSchema, updateClientSchema } from './schema'
 
-export async function updateClient(id: string, data: UpdateClient) {
+export async function updateClient(prevState: unknown, clientToUpdate: FormData): Promise<StandardResponse<Client>> {
 	// Validate the data
-	const validatedData = updateClientSchema.parse(data)
+	const rawData = Object.fromEntries(clientToUpdate.entries())
+	const { success, data, error } = updateClientSchema.safeParse(rawData)
+	if (!success) {
+		return {
+			message: null,
+			error: error?.errors.map((error) => error.message).join('. '),
+			data: null,
+		}
+	}
 
 	// Update timestamp
 	const now = new Date()
@@ -19,21 +27,26 @@ export async function updateClient(id: string, data: UpdateClient) {
 		const [updatedClient] = await db
 			.update(client)
 			.set({
-				...validatedData,
+				...data,
 				updatedAt: now,
 			})
-			.where(eq(client.id, id))
+			.where(eq(client.id, data.id))
 			.returning()
 
 		// Revalidate clients path to update the UI
-		revalidatePath('/clients')
-		revalidatePath(`/clients/${id}`)
+		if (!updatedClient) {
+			return { message: null, data: null, error: 'Error al actualizar el cliente' }
+		}
 
-		return { success: true, data: updatedClient }
+		revalidatePath('/clients')
+		revalidatePath(`/clients/${data.id}`)
+
+		return { message: 'Cliente actualizado correctamente', data: updatedClient, error: null }
 	} catch (error) {
 		return {
-			success: false,
+			message: null,
 			error: error instanceof Error ? error.message : 'Failed to update client',
+			data: null,
 		}
 	}
 }
@@ -80,7 +93,7 @@ export async function createClient(prevState: unknown, formData: FormData): Prom
 	}
 }
 
-export async function deleteClient(prevState: unknown, id: string): Promise<StandardResponse<void>> {
+export async function deleteClient(id: string): Promise<StandardResponse<void>> {
 	try {
 		await db.delete(client).where(eq(client.id, id))
 

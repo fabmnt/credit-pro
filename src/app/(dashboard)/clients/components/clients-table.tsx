@@ -88,6 +88,7 @@ export function ClientsTable({ clients }: ClientsTableProps) {
 					client={clientToDelete}
 					isOpen={!!clientToDelete}
 					onClose={handleDeleteCancel}
+					onDelete={handleDeleteCancel}
 				/>
 			)}
 		</div>

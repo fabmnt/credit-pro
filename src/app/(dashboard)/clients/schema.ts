@@ -11,14 +11,16 @@ export const clientSchema = z.object({
 	sex: z.string().min(1, { message: 'El sexo es requerido' }),
 	nationality: z.string().min(1, { message: 'La nacionalidad es requerida' }),
 	email: z.union([z.string().email({ message: 'Formato de email inválido' }), z.string().length(0), z.null()]),
-	company: z.string().optional(),
+	company: z.union([z.string().min(1, { message: 'La empresa es requerida' }), z.string().length(0), z.null()]),
 	createdAt: z.date(),
 	updatedAt: z.date(),
 })
 
 export const createClientSchema = clientSchema.omit({ id: true, createdAt: true, updatedAt: true })
 
-export const updateClientSchema = createClientSchema.partial()
+export const updateClientSchema = createClientSchema.partial().extend({
+	id: z.string().uuid(),
+})
 
 export type Client = z.infer<typeof clientSchema>
 export type CreateClient = z.infer<typeof createClientSchema>
