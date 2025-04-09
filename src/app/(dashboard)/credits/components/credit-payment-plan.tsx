@@ -1,7 +1,7 @@
 'use client'
 
 import { useCreditRequest } from '../stores'
-import { PaymentPlan } from './payment-plan'
+import { PaymentPlanTable } from './payment-plan'
 export function CreditPaymentPlan() {
 	const paymentPlan = useCreditRequest((state) => state.paymentPlan)
 
@@ -9,5 +9,5 @@ export function CreditPaymentPlan() {
 		return <p className='text-center text-sm text-muted-foreground'>Guarda la solicitud para generar el plan de pago</p>
 	}
 
-	return <PaymentPlan paymentPlans={paymentPlan} />
+	return <PaymentPlanTable paymentPlans={paymentPlan} />
 }

@@ -1,10 +1,8 @@
+import { CreateCredit } from '@/app/(dashboard)/credits/components/create-credit'
 import { CreditRequestsTable } from '@/app/(dashboard)/credits/components/credits-table'
 import { getActiveCredits, getCreditRequests } from '@/app/(dashboard)/credits/services/get-credits'
-import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Plus } from 'lucide-react'
-import Link from 'next/link'
 
 export default function CreditsPage() {
 	return (
@@ -15,16 +13,7 @@ export default function CreditsPage() {
 					<p className='text-muted-foreground'>Administra solicitudes de crédito y términos de financiamiento.</p>
 				</div>
 				<div>
-					<Button
-						asChild
-						size='lg'
-						className='cursor-pointer bg-blue-800 hover:bg-blue-800/90'
-					>
-						<Link href='/credits/new'>
-							Nuevo crédito
-							<Plus />
-						</Link>
-					</Button>
+					<CreateCredit />
 				</div>
 			</header>
 

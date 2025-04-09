@@ -100,7 +100,7 @@ export const creditPaymentPlan = pgTable('credit_payment_plan', {
 	paymentInterest: real('payment_interest').notNull(),
 	remainingCredit: real('remaining_credit').notNull(),
 	paymentReceived: real('payment_received').notNull(),
-	status: creditPaymentStatus('status').default('pending'),
+	status: creditPaymentStatus('status').default('pending').notNull(),
 	paymentDate: timestamp('payment_date').notNull(),
 	createdAt: timestamp('created_at').notNull().defaultNow(),
 	updatedAt: timestamp('updated_at').notNull().defaultNow(),

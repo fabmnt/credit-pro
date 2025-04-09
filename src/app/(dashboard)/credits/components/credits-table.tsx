@@ -41,14 +41,14 @@ export function CreditRequestsTable({ creditRequests }: CreditRequestsTableProps
 			<Table>
 				<TableHeader>
 					<TableRow>
-						<TableHead>#</TableHead>
-						<TableHead>Fecha de Inicio</TableHead>
-						<TableHead>Crédito Total</TableHead>
-						<TableHead>Monto</TableHead>
-						<TableHead>Tasa de Interés</TableHead>
-						<TableHead>Plazo (meses)</TableHead>
-						<TableHead>Frecuencia</TableHead>
-						<TableHead className='text-right'>Acciones</TableHead>
+						<TableHead />
+						<TableHead className='py-2'>Fecha de Inicio</TableHead>
+						<TableHead className='py-2'>Crédito Total</TableHead>
+						<TableHead className='py-2'>Monto</TableHead>
+						<TableHead className='py-2'>Tasa de Interés</TableHead>
+						<TableHead className='py-2'>Plazo (meses)</TableHead>
+						<TableHead className='py-2'>Frecuencia</TableHead>
+						<TableHead className='py-2 text-right'>Acciones</TableHead>
 					</TableRow>
 				</TableHeader>
 				<TableBody>
@@ -64,22 +64,22 @@ export function CreditRequestsTable({ creditRequests }: CreditRequestsTableProps
 					) : (
 						creditRequests.map((request) => (
 							<TableRow key={request.id}>
-								<TableCell>
+								<TableCell className='py-4'>
 									<Link
 										prefetch
 										href={`/credits/${request.id}`}
 										className='text-primary hover:underline font-bold'
 									>
-										{request.id.substring(0, 8)}
+										#{request.id.substring(0, 8)}
 									</Link>
 								</TableCell>
-								<TableCell>{formatDate(request.creditStartDate)}</TableCell>
-								<TableCell>{formatCurrency(request.totalCredit)}</TableCell>
-								<TableCell>{formatCurrency(request.amount)}</TableCell>
-								<TableCell>{new Decimal(request.interestRate).toFixed(2)}%</TableCell>
-								<TableCell>{request.monthsTerm}</TableCell>
-								<TableCell>{termFrequencyLabels[request.termFrequency]}</TableCell>
-								<TableCell className='text-right'>
+								<TableCell className='py-4'>{formatDate(request.creditStartDate)}</TableCell>
+								<TableCell className='py-4'>{formatCurrency(request.totalCredit)}</TableCell>
+								<TableCell className='py-4'>{formatCurrency(request.amount)}</TableCell>
+								<TableCell className='py-4'>{new Decimal(request.interestRate).toFixed(2)}%</TableCell>
+								<TableCell className='py-4'>{request.monthsTerm}</TableCell>
+								<TableCell className='py-4'>{termFrequencyLabels[request.termFrequency]}</TableCell>
+								<TableCell className='py-4 text-right'>
 									<div className='flex justify-end gap-2'>
 										<Button
 											size='icon'

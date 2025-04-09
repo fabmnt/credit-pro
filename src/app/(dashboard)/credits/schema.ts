@@ -109,8 +109,8 @@ export const creditPaymentPlanSchema = z.object({
 		})
 		.positive({ message: 'El monto recibido debe ser un valor positivo' })
 		.default(0),
-	status: z.enum(['pending', 'paid', 'late'], {
-		errorMap: () => ({ message: 'El estado debe ser pendiente, pagado o atrasado' }),
+	status: z.enum(['pending', 'paid', 'late', 'active'], {
+		errorMap: () => ({ message: 'El estado debe ser pendiente, pagado, atrasado o activo' }),
 	}),
 	paymentDate: z.date(),
 	createdAt: z.date(),

@@ -1,51 +1,40 @@
-'use client'
-
-import { Card, CardContent } from '@/components/ui/card'
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { formatCurrency } from '@/lib/utils'
-import { useCreditRequest } from '../stores'
+import type { CreditRequestWithClient } from '../schema'
 
-export function CreditRequestDetails() {
-	const creditRequestCreated = useCreditRequest((state) => state.creditRequestCreated)
-
-	if (!creditRequestCreated) {
-		return null
-	}
-
+export function CreditRequestDetails({ credit }: { credit: CreditRequestWithClient }) {
 	return (
-		<div className='space-y-4'>
-			<h4 className='text-lg font-semibold'>Detalles de la solicitud</h4>
-			<div className='grid grid-cols-5 gap-4'>
-				<Card className='rounded-sm'>
-					<CardContent>
-						<h5 className='text-sm font-medium'>Monto solicitado</h5>
-						<p>{formatCurrency(creditRequestCreated.amount)}</p>
-					</CardContent>
-				</Card>
-				<Card className='rounded-sm'>
-					<CardContent>
-						<h5 className='text-sm font-medium'>Total saldo</h5>
-						<p>{formatCurrency(creditRequestCreated.totalCredit)}</p>
-					</CardContent>
-				</Card>
-				<Card className='rounded-sm'>
-					<CardContent>
-						<h5 className='text-sm font-medium'>Interés total</h5>
-						<p>{formatCurrency(creditRequestCreated.totalInterest)}</p>
-					</CardContent>
-				</Card>
-				<Card className='rounded-sm'>
-					<CardContent>
-						<h5 className='text-sm font-medium'>Tasa de interés</h5>
-						<p>{creditRequestCreated.interestRate}%</p>
-					</CardContent>
-				</Card>
-				<Card className='rounded-sm'>
-					<CardContent>
-						<h5 className='text-sm font-medium'>Tasa de mora</h5>
-						<p>{creditRequestCreated.latePaymentRate}%</p>
-					</CardContent>
-				</Card>
-			</div>
+		<div className='grid grid-cols-5 gap-4'>
+			<Card className='rounded-sm'>
+				<CardHeader>
+					<CardDescription>Monto solicitado</CardDescription>
+					<CardTitle className='text-2xl font-medium'>{formatCurrency(credit.amount)}</CardTitle>
+				</CardHeader>
+			</Card>
+			<Card className='rounded-sm'>
+				<CardHeader>
+					<CardDescription>Total saldo</CardDescription>
+					<CardTitle className='text-2xl font-medium'>{formatCurrency(credit.totalCredit)}</CardTitle>
+				</CardHeader>
+			</Card>
+			<Card className='rounded-sm'>
+				<CardHeader>
+					<CardDescription>Interés total</CardDescription>
+					<CardTitle className='text-2xl font-medium'>{formatCurrency(credit.totalInterest)}</CardTitle>
+				</CardHeader>
+			</Card>
+			<Card className='rounded-sm'>
+				<CardHeader>
+					<CardDescription>Tasa de interés</CardDescription>
+					<CardTitle className='text-2xl font-medium'>{credit.interestRate}%</CardTitle>
+				</CardHeader>
+			</Card>
+			<Card className='rounded-sm'>
+				<CardHeader>
+					<CardDescription>Tasa de mora</CardDescription>
+					<CardTitle className='text-2xl font-medium'>{credit.latePaymentRate}%</CardTitle>
+				</CardHeader>
+			</Card>
 		</div>
 	)
 }

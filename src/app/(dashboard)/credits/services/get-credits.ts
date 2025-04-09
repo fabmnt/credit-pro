@@ -1,6 +1,6 @@
 import type { CreditRequestWithClient } from '@/app/(dashboard)/credits/schema'
 import { db } from '@/db'
-import { client, credit } from '@/db/schema'
+import { client, credit, creditPaymentPlan } from '@/db/schema'
 import Decimal from 'decimal.js'
 import { and, desc, eq } from 'drizzle-orm'
 
@@ -113,4 +113,10 @@ export async function getActiveCredits() {
 		interestRate: new Decimal(dbRequest.interestRate).toNumber(),
 		latePaymentRate: new Decimal(dbRequest.latePaymentRate).toNumber(),
 	}))
+}
+
+export async function getCreditPaymentPlan(creditId: string) {
+	const paymentPlan = await db.select().from(creditPaymentPlan).where(eq(creditPaymentPlan.creditId, creditId))
+
+	return paymentPlan
 }
