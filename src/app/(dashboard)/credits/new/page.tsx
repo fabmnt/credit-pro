@@ -1,8 +1,10 @@
 import { getClients } from '@/app/(dashboard)/clients/services/get-clients'
-import { Card, CardContent } from '@/components/ui/card'
-import { SelectCreditClient } from '../components/select-credit-client'
-import { SelectedClientDetails } from '../components/selected-client-details'
-
+import { CreditDetailsForm } from '@/app/(dashboard)/credits/components/credit-details-form'
+import { SelectCreditClient } from '@/app/(dashboard)/credits/components/select-credit-client'
+import { SelectedClientDetails } from '@/app/(dashboard)/credits/components/selected-client-details'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { CreditPaymentPlan } from '../components/credit-payment-plan'
+import { SaveCreditRequest } from '../components/save-credit-request'
 export default async function NewCreditPage() {
 	const clients = await getClients()
 
@@ -13,14 +15,31 @@ export default async function NewCreditPage() {
 					<h1 className='text-2xl font-semibold'>Nueva solicitud de crédito</h1>
 					<p className='text-muted-foreground'>Crea una nueva solicitud de crédito para un cliente</p>
 				</div>
+				<div>
+					<SaveCreditRequest />
+				</div>
 			</header>
-			<div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-				<Card className='rounded-sm'>
+			<div className='grid grid-cols-1 md:grid-cols-5 gap-8'>
+				<Card className='rounded-sm col-span-2'>
 					<CardContent>
-						<div className='space-y-4'>
+						<div className='space-y-8'>
 							<SelectCreditClient clients={clients} />
 							<SelectedClientDetails />
 						</div>
+					</CardContent>
+				</Card>
+				<Card className='rounded-sm col-span-3'>
+					<CardContent>
+						<CreditDetailsForm />
+					</CardContent>
+				</Card>
+
+				<Card className='rounded-sm col-span-5'>
+					<CardHeader>
+						<CardTitle>Plan de pago</CardTitle>
+					</CardHeader>
+					<CardContent>
+						<CreditPaymentPlan />
 					</CardContent>
 				</Card>
 			</div>

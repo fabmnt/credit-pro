@@ -1,12 +1,10 @@
 import { CreditRequestsTable } from '@/app/(dashboard)/credits/components/credit-requests-table'
-import { CreditRequestsTableSkeleton } from '@/app/(dashboard)/credits/components/credit-requests-table-skeleton'
 import { getActiveCredits, getCreditRequests } from '@/app/(dashboard)/credits/services/get-credits'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Plus } from 'lucide-react'
 import Link from 'next/link'
-import { Suspense } from 'react'
 
 export default function CreditsPage() {
 	return (
@@ -40,14 +38,10 @@ export default function CreditsPage() {
 					</CardHeader>
 					<CardContent>
 						<TabsContent value='requests-tab'>
-							<Suspense fallback={<CreditRequestsTableSkeleton />}>
-								<CreditRequestsList />
-							</Suspense>
+							<CreditRequestsList />
 						</TabsContent>
 						<TabsContent value='active-tab'>
-							<Suspense fallback={<CreditRequestsTableSkeleton />}>
-								<ActiveCreditsList />
-							</Suspense>
+							<ActiveCreditsList />
 						</TabsContent>
 					</CardContent>
 				</Card>

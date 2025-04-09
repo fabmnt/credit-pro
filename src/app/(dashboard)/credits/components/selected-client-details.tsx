@@ -1,5 +1,6 @@
 'use client'
-import { useCreditRequest } from '../stores'
+import { useCreditRequest } from '@/app/(dashboard)/credits/stores'
+import Link from 'next/link'
 
 export function SelectedClientDetails() {
 	const client = useCreditRequest((state) => state.client)
@@ -7,24 +8,21 @@ export function SelectedClientDetails() {
 	if (!client) return null
 
 	return (
-		<article className='grid grid-cols-3'>
-			<div className='flex items-start gap-2'>
-				<div>
-					<p className='text-sm font-medium'>Nombre</p>
-					<p className='text-sm text-muted-foreground'>{client.name}</p>
-				</div>
+		<article className='grid grid-cols-2'>
+			<div className='space-y-2'>
+				<p className='text-sm font-medium'>Cédula</p>
+				<p>
+					<Link
+						href={`/clients/${client.id}`}
+						className='text-sm text-muted-foreground hover:underline'
+					>
+						{client.dni}
+					</Link>
+				</p>
 			</div>
-			<div className='flex items-start gap-2'>
-				<div>
-					<p className='text-sm font-medium'>Cédula</p>
-					<p className='text-sm text-muted-foreground'>{client.dni}</p>
-				</div>
-			</div>
-			<div className='flex items-start gap-2'>
-				<div>
-					<p className='text-sm font-medium'>Teléfono</p>
-					<p className='text-sm text-muted-foreground'>{client.telephone}</p>
-				</div>
+			<div className='space-y-2'>
+				<p className='text-sm font-medium'>Nombre</p>
+				<p className='text-sm text-muted-foreground'>{client.name}</p>
 			</div>
 		</article>
 	)

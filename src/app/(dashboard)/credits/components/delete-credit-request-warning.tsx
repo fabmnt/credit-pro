@@ -2,7 +2,6 @@
 
 import {
 	AlertDialog,
-	AlertDialogAction,
 	AlertDialogCancel,
 	AlertDialogContent,
 	AlertDialogDescription,
@@ -10,25 +9,42 @@ import {
 	AlertDialogHeader,
 	AlertDialogTitle,
 } from '@/components/ui/alert-dialog'
+import { Button } from '@/components/ui/button'
 import { formatCurrency } from '@/lib/utils'
+import { Loader } from 'lucide-react'
+import { useTransition } from 'react'
+import { toast } from 'sonner'
+import { deleteCreditRequest } from '../actions'
 import type { CreditRequest } from '../schema'
 
 interface DeleteCreditRequestWarningProps {
 	creditRequest: CreditRequest
 	isOpen: boolean
 	onClose: () => void
-	onConfirm: () => void
+	onDelete: () => void
 }
 
 export function DeleteCreditRequestWarning({
 	creditRequest,
 	isOpen,
 	onClose,
-	onConfirm,
+	onDelete,
 }: DeleteCreditRequestWarningProps) {
-	const handleConfirm = () => {
-		onConfirm()
-		onClose()
+	const [isPending, startTransition] = useTransition()
+
+	const handleDeleteCredit = () => {
+		startTransition(async () => {
+			try {
+				const { error } = await deleteCreditRequest(creditRequest.id)
+				if (error) {
+					throw new Error(error)
+				}
+				toast.success('Solicitud eliminada')
+				onDelete()
+			} catch (error) {
+				toast.error('Error al eliminar la solicitud de crédito')
+			}
+		})
 	}
 
 	return (
@@ -46,13 +62,15 @@ export function DeleteCreditRequestWarning({
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter>
-					<AlertDialogCancel>Cancelar</AlertDialogCancel>
-					<AlertDialogAction
-						onClick={handleConfirm}
+					<AlertDialogCancel disabled={isPending}>Cancelar</AlertDialogCancel>
+					<Button
+						onClick={handleDeleteCredit}
 						className='bg-destructive hover:bg-destructive/90'
+						disabled={isPending}
 					>
-						Eliminar
-					</AlertDialogAction>
+						{isPending ? 'Eliminando...' : 'Eliminar'}
+						{isPending && <Loader className='w-4 h-4 animate-spin' />}
+					</Button>
 				</AlertDialogFooter>
 			</AlertDialogContent>
 		</AlertDialog>

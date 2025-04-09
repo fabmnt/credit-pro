@@ -42,10 +42,9 @@ export const creditRequestSchema = z.object({
 		})
 		.default('pending')
 		.nullable(),
-	creditStartDate: z.coerce
-		.date({
-			message: 'La fecha de inicio del crédito es requerida',
-		})
+	creditStartDate: z
+		.union([z.string(), z.date()], { message: 'La fecha de inicio del crédito es requerida' })
+		.transform((val) => new Date(val))
 		.refine(
 			(date) => {
 				const today = new Date()

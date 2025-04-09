@@ -1,14 +1,15 @@
 'use client'
 import type { Client } from '@/app/(dashboard)/clients/schema'
+import { useCreditRequest } from '@/app/(dashboard)/credits/stores'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useQueryState } from 'nuqs'
 import { useEffect } from 'react'
-import { useCreditRequest } from '../stores'
 
 export function SelectCreditClient({ clients }: { clients: Client[] }) {
 	const [clientId, setClientId] = useQueryState('clientId')
 	const setClient = useCreditRequest((state) => state.setClient)
+	const paymentPlan = useCreditRequest((state) => state.paymentPlan)
 
 	const handleSelectClient = (value: string) => {
 		const client = clients.find((client) => client.id === value)
@@ -29,6 +30,7 @@ export function SelectCreditClient({ clients }: { clients: Client[] }) {
 			<Select
 				value={clientId ?? undefined}
 				onValueChange={handleSelectClient}
+				disabled={paymentPlan != null}
 			>
 				<SelectTrigger className='w-full'>
 					<SelectValue placeholder='Selecciona un cliente' />

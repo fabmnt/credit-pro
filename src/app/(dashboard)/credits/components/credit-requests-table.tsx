@@ -1,6 +1,4 @@
 'use client'
-
-import { deleteCreditRequest } from '@/app/(dashboard)/credits/actions'
 import { DeleteCreditRequestWarning } from '@/app/(dashboard)/credits/components/delete-credit-request-warning'
 import type { CreditRequest } from '@/app/(dashboard)/credits/schema'
 import { Button } from '@/components/ui/button'
@@ -9,9 +7,7 @@ import { formatCurrency, formatDate } from '@/lib/utils'
 import Decimal from 'decimal.js'
 import { Trash2 } from 'lucide-react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { toast } from 'sonner'
 
 // Map term frequency to Spanish
 const termFrequencyLabels = {
@@ -23,11 +19,9 @@ const termFrequencyLabels = {
 
 interface CreditRequestsTableProps {
 	creditRequests: CreditRequest[]
-	onEdit?: (creditRequest: CreditRequest) => void
 }
 
-export function CreditRequestsTable({ creditRequests, onEdit }: CreditRequestsTableProps) {
-	const router = useRouter()
+export function CreditRequestsTable({ creditRequests }: CreditRequestsTableProps) {
 	const [requestToDelete, setRequestToDelete] = useState<CreditRequest | null>(null)
 
 	const handleDeleteClick = (creditRequest: CreditRequest) => {
@@ -38,28 +32,8 @@ export function CreditRequestsTable({ creditRequests, onEdit }: CreditRequestsTa
 		setRequestToDelete(null)
 	}
 
-	const handleDeleteConfirm = async () => {
-		if (!requestToDelete) return
-
-		try {
-			const result = await deleteCreditRequest(requestToDelete.id)
-
-			if (result.success) {
-				toast.success('Solicitud eliminada')
-
-				// Refresh the page data
-				router.refresh()
-			} else {
-				toast.error('Error', {
-					description: result.error || 'No se pudo eliminar la solicitud de crédito',
-				})
-			}
-		} catch (error) {
-			console.error('Error deleting credit request:', error)
-			toast.error('Error', {
-				description: 'Ocurrió un error al eliminar la solicitud de crédito',
-			})
-		}
+	const handleDeleteConfirm = () => {
+		setRequestToDelete(null)
 	}
 
 	return (
@@ -107,15 +81,6 @@ export function CreditRequestsTable({ creditRequests, onEdit }: CreditRequestsTa
 								<TableCell>{termFrequencyLabels[request.termFrequency]}</TableCell>
 								<TableCell className='text-right'>
 									<div className='flex justify-end gap-2'>
-										{onEdit && (
-											<Button
-												variant='outline'
-												size='sm'
-												onClick={() => onEdit(request)}
-											>
-												Editar
-											</Button>
-										)}
 										<Button
 											size='icon'
 											className='bg-transparent hover:bg-destructive/10 text-destructive'
@@ -138,7 +103,7 @@ export function CreditRequestsTable({ creditRequests, onEdit }: CreditRequestsTa
 					creditRequest={requestToDelete}
 					isOpen={!!requestToDelete}
 					onClose={handleDeleteCancel}
-					onConfirm={handleDeleteConfirm}
+					onDelete={handleDeleteConfirm}
 				/>
 			)}
 		</div>
