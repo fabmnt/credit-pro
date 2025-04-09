@@ -21,7 +21,7 @@ export function DeleteClient({ client }: { client: Client }) {
 		<>
 			<Button
 				onClick={() => setIsOpen(true)}
-				className='cursor-pointer text-red-800 hover:text-red-800'
+				className='cursor-pointer text-red-800 hover:text-red-800/90'
 				variant='outline'
 				size='lg'
 			>

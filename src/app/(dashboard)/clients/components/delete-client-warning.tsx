@@ -53,7 +53,7 @@ export function DeleteClientWarning({ client, isOpen, onClose, onDelete }: Delet
 					<AlertDialogCancel>Cancelar</AlertDialogCancel>
 					<Button
 						onClick={handleDelete}
-						className='bg-red-800 ml-2 hover:bg-red-800 text-white'
+						className='bg-red-800 ml-2 hover:bg-red-800/90 text-white'
 						type='submit'
 						disabled={isPending}
 					>

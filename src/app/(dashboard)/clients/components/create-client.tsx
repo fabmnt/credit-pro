@@ -46,7 +46,7 @@ export function CreateClient() {
 		>
 			<DialogTrigger asChild>
 				<Button
-					className='cursor-pointer bg-blue-800 hover:bg-blue-800'
+					className='cursor-pointer bg-blue-800 hover:bg-blue-800/90'
 					size='lg'
 				>
 					<span>Crear cliente</span>
@@ -176,7 +176,7 @@ export function CreateClient() {
 						</div>
 					</div>
 					<Button
-						className='w-full bg-blue-800 hover:bg-blue-800 cursor-pointer'
+						className='w-full bg-blue-800 hover:bg-blue-800/90 cursor-pointer'
 						type='submit'
 						disabled={isPending}
 					>
