@@ -18,10 +18,8 @@ export function SelectCreditClient({ clients }: { clients: Client[] }) {
 	}
 
 	useEffect(() => {
-		if (clientId) {
-			const client = clients.find((client) => client.id === clientId)
-			setClient(client ?? null)
-		}
+		const client = clients.find((client) => client.id === clientId)
+		setClient(client ?? null)
 	}, [clientId, clients, setClient])
 
 	return (

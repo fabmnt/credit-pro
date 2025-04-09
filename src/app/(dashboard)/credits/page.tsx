@@ -1,4 +1,4 @@
-import { CreditRequestsTable } from '@/app/(dashboard)/credits/components/credit-requests-table'
+import { CreditRequestsTable } from '@/app/(dashboard)/credits/components/credits-table'
 import { getActiveCredits, getCreditRequests } from '@/app/(dashboard)/credits/services/get-credits'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
