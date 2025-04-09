@@ -4,6 +4,7 @@ import { SelectCreditClient } from '@/app/(dashboard)/credits/components/select-
 import { SelectedClientDetails } from '@/app/(dashboard)/credits/components/selected-client-details'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { CreditPaymentPlan } from '../components/credit-payment-plan'
+import { CreditRequestDetails } from '../components/credit-request-details'
 import { SaveCreditRequest } from '../components/save-credit-request'
 export default async function NewCreditPage() {
 	const clients = await getClients()
@@ -33,6 +34,9 @@ export default async function NewCreditPage() {
 						<CreditDetailsForm />
 					</CardContent>
 				</Card>
+				<div className='col-span-5'>
+					<CreditRequestDetails />
+				</div>
 
 				<Card className='rounded-sm col-span-5'>
 					<CardHeader>

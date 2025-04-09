@@ -79,6 +79,7 @@ export function CreditDetailsForm() {
 						onChange={handleChangeLatePaymentRate}
 						placeholder='0.00'
 						required
+						disabled={paymentPlan != null}
 					/>
 				</div>
 				<div className='space-y-2'>

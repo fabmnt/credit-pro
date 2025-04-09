@@ -10,7 +10,7 @@ export function SelectedClientDetails() {
 
 	return (
 		<article className='grid grid-cols-2 gap-4'>
-			<Card className='flex flex-col gap-y-2 rounded-sm'>
+			<Card className='flex flex-col gap-y-2 rounded-sm border-none shadow-none'>
 				<CardContent>
 					<p className='text-sm font-medium'>Cédula</p>
 					<p>
@@ -23,7 +23,7 @@ export function SelectedClientDetails() {
 					</p>
 				</CardContent>
 			</Card>
-			<Card className='flex flex-col gap-y-2 rounded-sm'>
+			<Card className='flex flex-col gap-y-2 rounded-sm border-none shadow-none'>
 				<CardContent>
 					<p className='text-sm font-medium'>Nombre</p>
 					<p className='text-sm text-muted-foreground'>{client.name}</p>

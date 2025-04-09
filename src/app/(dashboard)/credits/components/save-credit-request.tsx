@@ -15,6 +15,7 @@ export function SaveCreditRequest() {
 	const client = useCreditRequest((state) => state.client)
 	const creditRequest = useCreditRequest((state) => state.creditRequest)
 	const setPaymentPlan = useCreditRequest((state) => state.setPaymentPlan)
+	const setCreditRequestCreated = useCreditRequest((state) => state.setCreditRequestCreated)
 	const paymentPlan = useCreditRequest((state) => state.paymentPlan)
 	const { mutate: createCreditRequest, isPending } = useMutation({
 		mutationFn: async (creditRequest: CreateCreditRequest) => {
@@ -33,6 +34,7 @@ export function SaveCreditRequest() {
 		},
 		onSuccess: (data) => {
 			setPaymentPlan(data.paymentPlan)
+			setCreditRequestCreated(data.credit)
 			toast.success('Solicitud de crédito creada correctamente')
 		},
 		onError: (error) => {

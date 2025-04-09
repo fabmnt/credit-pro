@@ -1,6 +1,6 @@
 import type { Client } from '@/app/(dashboard)/clients/schema'
 import { create } from 'zustand'
-import type { CreateCreditRequest, CreditPaymentPlan } from './schema'
+import type { CreateCreditRequest, CreditPaymentPlan, CreditRequest } from './schema'
 
 interface CreditRequestStore {
 	client: Client | null
@@ -9,6 +9,8 @@ interface CreditRequestStore {
 	setCreditRequest: (creditRequest: Partial<CreateCreditRequest> | null) => void
 	paymentPlan: CreditPaymentPlan[] | null
 	setPaymentPlan: (paymentPlan: CreditPaymentPlan[] | null) => void
+	creditRequestCreated: CreditRequest | null
+	setCreditRequestCreated: (creditRequestCreated: CreditRequest | null) => void
 }
 
 export const useCreditRequest = create<CreditRequestStore>((set) => ({
@@ -18,4 +20,6 @@ export const useCreditRequest = create<CreditRequestStore>((set) => ({
 	setCreditRequest: (creditRequest) => set({ creditRequest }),
 	paymentPlan: null,
 	setPaymentPlan: (paymentPlan) => set({ paymentPlan }),
+	creditRequestCreated: null,
+	setCreditRequestCreated: (creditRequestCreated) => set({ creditRequestCreated }),
 }))
