@@ -10,7 +10,7 @@ export async function POST(request: NextRequest) {
 	const { success, data, error } = createCreditRequestSchema.safeParse(body)
 
 	if (!success) {
-		return NextResponse.json({ error: error.message }, { status: 400 })
+		return NextResponse.json({ error: error.errors.map((e) => e.message).join('. ') }, { status: 400 })
 	}
 
 	const { clientId, amount, interestRate, latePaymentRate, monthsTerm, termFrequency, creditStartDate } = data

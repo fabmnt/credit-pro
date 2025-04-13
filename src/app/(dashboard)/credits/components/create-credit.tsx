@@ -1,7 +1,7 @@
 'use client'
 
 import type { Client } from '@/app/(dashboard)/clients/schema'
-import { type CreateCreditRequest, createCreditRequestSchema } from '@/app/(dashboard)/credits/schema'
+import type { CreateCreditRequest } from '@/app/(dashboard)/credits/schema'
 import { Button } from '@/components/ui/button'
 import {
 	Dialog,
@@ -33,7 +33,6 @@ export function CreateCredit() {
 		creditStartDate: new Date(),
 		clientId: '',
 	})
-	const [errors, setErrors] = useState<Record<string, string>>({})
 	const router = useRouter()
 	// Fetch clients for dropdown
 	const { data: clients, isLoading: isLoadingClients } = useQuery({
@@ -74,7 +73,6 @@ export function CreateCredit() {
 				creditStartDate: new Date(),
 				clientId: '',
 			})
-			setErrors({})
 			router.refresh()
 		},
 		onError: (error) => {
@@ -85,34 +83,11 @@ export function CreateCredit() {
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement> | { name: string; value: string | number | Date }) => {
 		const { name, value } = 'target' in e ? e.target : e
 		setFormData((prev) => ({ ...prev, [name]: value }))
-
-		// Clear error for this field if it exists
-		if (errors[name]) {
-			setErrors((prev) => {
-				const newErrors = { ...prev }
-				delete newErrors[name]
-				return newErrors
-			})
-		}
 	}
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
-
-		const result = createCreditRequestSchema.safeParse(formData)
-
-		if (!result.success) {
-			const formattedErrors: Record<string, string> = {}
-			for (const err of result.error.errors) {
-				if (err.path[0]) {
-					formattedErrors[err.path[0].toString()] = err.message
-				}
-			}
-			setErrors(formattedErrors)
-			return
-		}
-
-		createCredit(result.data)
+		createCredit(formData as CreateCreditRequest)
 	}
 
 	return (
@@ -158,7 +133,6 @@ export function CreateCredit() {
 									))}
 								</SelectContent>
 							</Select>
-							{errors.clientId && <p className='text-sm text-destructive'>{errors.clientId}</p>}
 						</div>
 
 						<div className='grid grid-cols-2 gap-8'>
@@ -169,13 +143,12 @@ export function CreateCredit() {
 									name='amount'
 									type='number'
 									step='0.01'
-									min='1'
+									min='0'
 									value={formData.amount || ''}
 									onChange={(e) => handleChange({ name: 'amount', value: Number(e.target.value) })}
 									placeholder='0.00'
 									disabled={isPending}
 								/>
-								{errors.amount && <p className='text-sm text-destructive'>{errors.amount}</p>}
 							</div>
 
 							<div className='space-y-2'>
@@ -192,7 +165,6 @@ export function CreateCredit() {
 									placeholder='0.00'
 									disabled={isPending}
 								/>
-								{errors.interestRate && <p className='text-sm text-destructive'>{errors.interestRate}</p>}
 							</div>
 						</div>
 
@@ -211,7 +183,6 @@ export function CreateCredit() {
 									placeholder='0.00'
 									disabled={isPending}
 								/>
-								{errors.latePaymentRate && <p className='text-sm text-destructive'>{errors.latePaymentRate}</p>}
 							</div>
 
 							<div className='space-y-2'>
@@ -229,7 +200,6 @@ export function CreateCredit() {
 									min={format(new Date(), 'yyyy-MM-dd')}
 									disabled={isPending}
 								/>
-								{errors.creditStartDate && <p className='text-sm text-destructive'>{errors.creditStartDate}</p>}
 							</div>
 						</div>
 
@@ -254,7 +224,6 @@ export function CreateCredit() {
 										<SelectItem value='yearly'>Anual</SelectItem>
 									</SelectContent>
 								</Select>
-								{errors.termFrequency && <p className='text-sm text-destructive'>{errors.termFrequency}</p>}
 							</div>
 
 							<div className='space-y-2'>
@@ -281,7 +250,6 @@ export function CreateCredit() {
 										))}
 									</SelectContent>
 								</Select>
-								{errors.monthsTerm && <p className='text-sm text-destructive'>{errors.monthsTerm}</p>}
 							</div>
 						</div>
 					</div>

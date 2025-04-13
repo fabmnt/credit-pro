@@ -40,6 +40,9 @@ export default async function CreditPage({ params }: { params: Promise<{ id: str
 					</div>
 				</div>
 			</header>
+			<div>
+				<h3 className='text-lg font-medium'>Detalles del crédito</h3>
+			</div>
 			<div className='grid grid-cols-5 gap-y-8 gap-x-4'>
 				<Card className='col-span-5 rounded-sm'>
 					<CardHeader>
