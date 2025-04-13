@@ -1,5 +1,6 @@
+import { TERM_FREQUENCY_LABEL } from '@/app/constants/frequencies'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { formatDate } from '@/lib/utils'
 import { ArrowLeftIcon } from 'lucide-react'
@@ -8,6 +9,7 @@ import { notFound } from 'next/navigation'
 import { CreditRequestDetails } from '../components/credit-request-details'
 import { PaymentPlanTable } from '../components/payment-plan'
 import { getCreditById, getCreditPaymentPlan } from '../services/get-credits'
+
 export default async function CreditPage({ params }: { params: Promise<{ id: string }> }) {
 	const { id } = await params
 
@@ -40,32 +42,30 @@ export default async function CreditPage({ params }: { params: Promise<{ id: str
 			</header>
 			<div className='grid grid-cols-5 gap-y-8 gap-x-4'>
 				<Card className='col-span-5 rounded-sm'>
-					<CardContent>
+					<CardHeader>
 						<div className='grid grid-cols-5 gap-4'>
-							<div className='flex flex-col gap-2'>
-								<span className=''>Cliente</span>
-								<div className='flex flex-col gap-1'>
-									<span className='text-muted-foreground'>{credit.client.name}</span>
-								</div>
+							<div className='flex flex-col gap-2 border-r'>
+								<CardDescription className='text-sm text-muted-foreground'>Cliente</CardDescription>
+								<CardTitle className='text-lg font-medium'>{credit.client.name}</CardTitle>
+							</div>
+							<div className='flex flex-col gap-2 border-r'>
+								<CardDescription className='text-sm text-muted-foreground'>Fecha de inicio</CardDescription>
+								<CardTitle className='text-lg font-medium'>{formatDate(credit.creditStartDate)}</CardTitle>
+							</div>
+							<div className='flex flex-col gap-2 border-r'>
+								<CardDescription className='text-sm text-muted-foreground'>Frecuencia</CardDescription>
+								<CardTitle className='text-lg font-medium'>{TERM_FREQUENCY_LABEL[credit.termFrequency]}</CardTitle>
+							</div>
+							<div className='flex flex-col gap-2 border-r'>
+								<CardDescription className='text-sm text-muted-foreground'>Plazo</CardDescription>
+								<CardTitle className='text-lg font-medium'>{credit.monthsTerm} meses</CardTitle>
 							</div>
 							<div className='flex flex-col gap-2'>
-								<span className=''>Fecha de inicio</span>
-								<span className='text-muted-foreground'>{formatDate(credit.creditStartDate)}</span>
-							</div>
-							<div className='flex flex-col gap-2'>
-								<span className=''>Frecuencia</span>
-								<span className='text-muted-foreground'>{credit.termFrequency}</span>
-							</div>
-							<div className='flex flex-col gap-2'>
-								<span className=''>Plazo</span>
-								<span className='text-muted-foreground'>{credit.monthsTerm} meses</span>
-							</div>
-							<div className='flex flex-col gap-2'>
-								<span className=''>Total de pagos</span>
-								<span className='text-muted-foreground'>{paymentPlan.length} pagos</span>
+								<CardDescription className='text-sm text-muted-foreground'>Total de pagos</CardDescription>
+								<CardTitle className='text-lg font-medium'>{paymentPlan.length} pagos</CardTitle>
 							</div>
 						</div>
-					</CardContent>
+					</CardHeader>
 				</Card>
 				<div className='col-span-5'>
 					<CreditRequestDetails credit={credit} />
