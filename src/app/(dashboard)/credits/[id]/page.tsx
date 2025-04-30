@@ -1,6 +1,6 @@
 import { TERM_FREQUENCY_LABEL } from '@/app/constants/frequencies'
 import { Button } from '@/components/ui/button'
-import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { formatDate } from '@/lib/utils'
 import { ArrowLeftIcon } from 'lucide-react'
@@ -21,8 +21,8 @@ export default async function CreditPage({ params }: { params: Promise<{ id: str
 	}
 
 	return (
-		<div className='py-4 px-6 space-y-6'>
-			<header className='flex justify-between items-center border-b pb-4'>
+		<div className='space-y-6'>
+			<header className='flex justify-between items-center pb-4 py-4 px-6 border-b'>
 				<div>
 					<Button
 						variant='outline'
@@ -40,26 +40,23 @@ export default async function CreditPage({ params }: { params: Promise<{ id: str
 					</div>
 				</div>
 			</header>
-			<div>
-				<h3 className='text-lg font-medium'>Detalles del crédito</h3>
-			</div>
-			<div className='grid grid-cols-5 gap-y-8 gap-x-4'>
+			<div className='grid grid-cols-5 gap-y-8 gap-x-4 py-4 px-6 '>
 				<Card className='col-span-5 rounded-sm'>
 					<CardHeader>
 						<div className='grid grid-cols-5 gap-4'>
-							<div className='flex flex-col gap-2 border-r'>
+							<div className='flex flex-col gap-2'>
 								<CardDescription className='text-sm text-muted-foreground'>Cliente</CardDescription>
 								<CardTitle className='text-lg font-medium'>{credit.client.name}</CardTitle>
 							</div>
-							<div className='flex flex-col gap-2 border-r'>
+							<div className='flex flex-col gap-2'>
 								<CardDescription className='text-sm text-muted-foreground'>Fecha de inicio</CardDescription>
 								<CardTitle className='text-lg font-medium'>{formatDate(credit.creditStartDate)}</CardTitle>
 							</div>
-							<div className='flex flex-col gap-2 border-r'>
+							<div className='flex flex-col gap-2'>
 								<CardDescription className='text-sm text-muted-foreground'>Frecuencia</CardDescription>
 								<CardTitle className='text-lg font-medium'>{TERM_FREQUENCY_LABEL[credit.termFrequency]}</CardTitle>
 							</div>
-							<div className='flex flex-col gap-2 border-r'>
+							<div className='flex flex-col gap-2'>
 								<CardDescription className='text-sm text-muted-foreground'>Plazo</CardDescription>
 								<CardTitle className='text-lg font-medium'>{credit.monthsTerm} meses</CardTitle>
 							</div>
@@ -73,12 +70,14 @@ export default async function CreditPage({ params }: { params: Promise<{ id: str
 				<div className='col-span-5'>
 					<CreditRequestDetails credit={credit} />
 				</div>
-				<div className='col-span-5'>
-					<h2 className='text-lg font-medium mb-3'>Plan de pagos</h2>
-					<ScrollArea className='relative h-80'>
-						<PaymentPlanTable paymentPlans={paymentPlan} />
-					</ScrollArea>
-				</div>
+				<Card className='col-span-5 rounded-sm'>
+					<CardContent>
+						<h2 className='text-lg font-medium mb-3'>Plan de pagos</h2>
+						<ScrollArea className='relative max-h-80'>
+							<PaymentPlanTable paymentPlans={paymentPlan} />
+						</ScrollArea>
+					</CardContent>
+				</Card>
 			</div>
 		</div>
 	)
