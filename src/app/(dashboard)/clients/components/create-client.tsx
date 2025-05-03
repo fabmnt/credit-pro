@@ -46,7 +46,7 @@ export function CreateClient() {
 		>
 			<DialogTrigger asChild>
 				<Button
-					className='cursor-pointer bg-blue-800 hover:bg-blue-800/90'
+					className='cursor-pointer'
 					size='lg'
 				>
 					<span>Crear cliente</span>

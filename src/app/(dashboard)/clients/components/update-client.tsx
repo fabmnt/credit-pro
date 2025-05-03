@@ -193,7 +193,7 @@ export function UpdateClient({ client }: { client: Client }) {
 						</div>
 					</div>
 					<Button
-						className='w-full bg-blue-800 hover:bg-blue-800/90 cursor-pointer'
+						className='w-full cursor-pointer'
 						type='submit'
 						disabled={isPending}
 					>
