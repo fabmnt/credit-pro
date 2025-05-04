@@ -1,6 +1,6 @@
 'use client'
 
-import { CreditCard, Home, Loader, LogOut, PieChart, Users } from 'lucide-react'
+import { CreditCard, Home, Loader, LogOut, Users } from 'lucide-react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 
@@ -14,6 +14,7 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 	SidebarRail,
+	SidebarTrigger,
 } from '@/components/ui/sidebar'
 import { authClient } from '@/lib/auth-client'
 import { useMutation } from '@tanstack/react-query'
@@ -51,25 +52,21 @@ export function AppSidebar() {
 			href: '/credits',
 			isActive: (path: string) => path.startsWith('/credits'),
 		},
-		{
-			title: 'Reportes',
-			icon: PieChart,
-			href: '/reports',
-			isActive: (path: string) => path.startsWith('/reports'),
-		},
 	]
 
 	return (
 		<Sidebar className='border-r'>
-			<SidebarHeader>
-				<div className='flex h-14 items-center px-4'>
+			<SidebarHeader className='py-4 flex flex-row justify-between items-center'>
+				<div className='flex items-center'>
 					<Link
 						href='/'
-						className='flex items-center gap-2 font-semibold'
+						className='flex items-center gap-2 font-bold'
 					>
-						<CreditCard className='h-6 w-6 text-primary' />
-						<span className='text-xl'>CreditPro</span>
+						Credit Pro
 					</Link>
+				</div>
+				<div>
+					<SidebarTrigger />
 				</div>
 			</SidebarHeader>
 			<SidebarContent>

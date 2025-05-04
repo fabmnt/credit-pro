@@ -37,8 +37,8 @@ export const creditRequestSchema = z.object({
 		message: 'El interés total debe ser un valor positivo',
 	}),
 	status: z
-		.enum(['pending', 'accepted', 'rejected', 'active'], {
-			errorMap: () => ({ message: 'El estado debe ser pendiente, aceptado o rechazado' }),
+		.enum(['pending', 'rejected', 'active'], {
+			errorMap: () => ({ message: 'El estado debe ser pendiente, rechazado o activo' }),
 		})
 		.default('pending')
 		.nullable(),

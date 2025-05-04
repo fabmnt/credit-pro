@@ -8,31 +8,31 @@ export function CreditRequestDetails({ credit }: { credit: CreditRequestWithClie
 			<Card className='rounded-sm'>
 				<CardHeader>
 					<CardDescription>Monto solicitado</CardDescription>
-					<CardTitle className='text-2xl font-medium'>{formatCurrency(credit.amount)}</CardTitle>
+					<CardTitle className='text-lg font-semibold'>{formatCurrency(credit.amount)}</CardTitle>
 				</CardHeader>
 			</Card>
 			<Card className='rounded-sm'>
 				<CardHeader>
 					<CardDescription>Total saldo</CardDescription>
-					<CardTitle className='text-2xl font-medium'>{formatCurrency(credit.totalCredit)}</CardTitle>
+					<CardTitle className='text-lg font-semibold'>{formatCurrency(credit.totalCredit)}</CardTitle>
 				</CardHeader>
 			</Card>
 			<Card className='rounded-sm'>
 				<CardHeader>
 					<CardDescription>Interés total</CardDescription>
-					<CardTitle className='text-2xl font-medium'>{formatCurrency(credit.totalInterest)}</CardTitle>
+					<CardTitle className='text-lg font-semibold'>{formatCurrency(credit.totalInterest)}</CardTitle>
 				</CardHeader>
 			</Card>
 			<Card className='rounded-sm'>
 				<CardHeader>
 					<CardDescription>Tasa de interés</CardDescription>
-					<CardTitle className='text-2xl font-medium'>{credit.interestRate}%</CardTitle>
+					<CardTitle className='text-lg font-semibold'>{credit.interestRate}%</CardTitle>
 				</CardHeader>
 			</Card>
 			<Card className='rounded-sm'>
 				<CardHeader>
 					<CardDescription>Tasa de mora</CardDescription>
-					<CardTitle className='text-2xl font-medium'>{credit.latePaymentRate}%</CardTitle>
+					<CardTitle className='text-lg font-semibold'>{credit.latePaymentRate}%</CardTitle>
 				</CardHeader>
 			</Card>
 		</div>
