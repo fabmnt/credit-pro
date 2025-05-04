@@ -22,8 +22,8 @@ import type { Client } from '../schema'
 
 export function UpdateClient({ client }: { client: Client }) {
 	const [state, formAction, isPending] = useActionState(updateClient, {
+		error: '',
 		message: null,
-		error: null,
 		data: null,
 	})
 

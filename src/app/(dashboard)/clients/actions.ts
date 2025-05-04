@@ -79,7 +79,7 @@ export async function createClient(prevState: unknown, formData: FormData): Prom
 
 		// Revalidate clients path to update the UI
 		if (!newClient) {
-			return { message: 'Error al crear el cliente', data: null, error: 'Error al crear el cliente' }
+			return { message: null, data: null, error: 'Error al crear el cliente' }
 		}
 
 		revalidatePath('/clients')

@@ -22,7 +22,7 @@ import { createClient } from '../actions'
 export function CreateClient() {
 	const [state, formAction, isPending] = useActionState(createClient, {
 		message: null,
-		error: null,
+		error: '',
 		data: null,
 	})
 

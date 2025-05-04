@@ -11,7 +11,7 @@ import { useActionState, useEffect } from 'react'
 import { toast } from 'sonner'
 export function RegisterForm() {
 	const [state, formAction, isPending] = useActionState(register, {
-		error: null,
+		error: '',
 		message: null,
 		data: null,
 	})

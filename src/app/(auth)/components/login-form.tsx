@@ -12,7 +12,7 @@ import { useActionState, useEffect } from 'react'
 import { toast } from 'sonner'
 export function LoginForm() {
 	const [state, formAction, isPending] = useActionState(login, {
-		error: null,
+		error: '',
 		message: null,
 		data: null,
 	})
